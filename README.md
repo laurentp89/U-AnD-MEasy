@@ -1,9 +1,19 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <div align="center">
-  <h1 align="center">U-AnD-ME</h1>
+  <h1 align="center">U-AnD-MEasy</h1>
   U-Net 3+ for Anomalous Diffusion analysis enhanced with Mixture Estimates. 
 </div>
+
+<br />
+<hr />
+<hr />
+<h3> NOT CLAIMING CREDIT FOR ANY OF THIS WORK. </h3>
+I forked this repo only to make it easier for a friend to install and use this tool.
+Added a requirements file and python venv installation instruction for WSL.
+I also did a bit of refactoring on the file path isage for the notebooks.
+<hr />
+<hr />
 <br />
 This repo contains code for the method that team "UCL SAM" used for the AnDi Challenge 2024. We came 1st place in both trajectory analysis tasks. We also came 1st for each of the five subtasks of the single trajectory task, which was the most heavily subscribed across the contest.
 
@@ -30,6 +40,10 @@ Outputs are split according to their predicted change points to generate segment
 ### OS Requirements
 This code is compatible with Windows and Unix operating systems. It has been tested on Rocky Linux 8.
 
+<hr>
+I'll add instructions for setup in WSL2
+<hr>
+
 ### Dependencies
 U-AnD-ME runs using Python 3.10 with TensorFlow 2.10. All the libraries used are:
 
@@ -43,12 +57,65 @@ U-AnD-ME runs using Python 3.10 with TensorFlow 2.10. All the libraries used are
 
 
 # Installation Guide
-Once the required libraries are installed, simply clone the repository with Git LFS:
-```
-git lfs clone https://github.com/SolomonAsghar/U-AnD-ME.git
-```
-This should take at most ~5 mins. After cloning the repo, you will be able to run the notebooks included in `demo`. Note that `software` and `demo` must remain in the same directory. Git LFS is required due to the large size of the network weight files; a standard Git clone may be used if pretrained networks are not required.
 
+## 1. Install WSL2 + Ubuntu
+ 
+From an elevated PowerShell:
+ 
+```powershell
+wsl --install -d Ubuntu-22.04
+wsl --set-default-version 2
+```
+ 
+Check status:
+ 
+```powershell
+wsl --list --verbose
+wsl --update
+```
+ 
+Create your Unix user/password on first launch of the Ubuntu app.
+ 
+## 2. Base system update
+ 
+Inside the Ubuntu shell:
+ 
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y build-essential curl wget git unzip ca-certificates gnupg
+```
+
+## 3. Python via system + venv
+ 
+```bash
+sudo apt install -y python3 python3-pip python3-venv
+```
+
+## 4. Clone repo
+
+```bash
+git clone https://github.com/laurentp89/U-AnD-MEasy.git
+```
+
+## 5. Setup environment
+In your WSL terminal
+
+```bash
+cd /path/to/repo
+python -m venv .venv
+```
+## 6. Activate environment
+
+```bash
+source .venv/bin/activate
+```
+
+## 7. Install dependencies
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
 # Usage Instructions
 1) Use `Prediction/Predict_GeneralNet.ipynb` for predictions using a general network, or `Prediction/Predict_ExpNets.ipynb` for predictions using experiment specific networks (note, experiment specific networks are trained specifically for the AnDi Challege dataset). 
@@ -57,8 +124,8 @@ This should take at most ~5 mins. After cloning the repo, you will be able to ru
 
 Prediction time can be drastically reduced by lowering the range of GMM components tested (e.g. in the function `AnalyseEnsembleProperties`, set `n_components = np.arange(1, 3)`).
 
-# Contact
-Solomon Asghar - solomon.asghar.20@ucl.ac.uk
+# Original repo
+https://github.com/SolomonAsghar/U-AnD-ME
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/solomon-asghar-12b3a0215/
